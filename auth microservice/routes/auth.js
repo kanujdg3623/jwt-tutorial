@@ -5,23 +5,31 @@ const url = require('url')
 const router  = express.Router()
 
 class Auth {
-  static secret = process.env.SECRET
-  static client_id = process.env.CLIENT_ID
-  static redirect_uris = new Set([
+  static secret = process.env.SECRET  //secret key for jwt library
+  static client_id = process.env.CLIENT_ID // client id identifier
+  static redirect_uris = new Set([  // list of allowed redirect uris
     "http://localhost:5001/callback"
   ])
-  static users ={
+  static users ={ // dummy user
     'kanujdg3623':{
       displayName: "Kanuj Das Gupta",
+      // hashed password using bcrypt
       passwordHash: "$2b$08$7QPqyj55vma0aKSfBRUPVOdY4L7llvGxXBs/bzxQaqVN0qzMrGYlK"
     }
   }
 }
 
+// renders login page->views/index.ejs
 router.get("/",(req,res)=>{
   res.render("index",req.query)
 })
 
+/**
+  check client id and redirect uri gotten through URL string
+  bcrypts checks for password if correct for the given username
+  jwt created with payload: username, issuer, hashed signature with 5 min expiry
+  the jwt is sent to redirect uri
+**/
 router.post("/",(req,res)=>{
   let client_id = req.body.client_id
   let redirect_uri = req.body.redirect_uri
