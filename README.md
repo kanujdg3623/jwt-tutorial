@@ -15,6 +15,6 @@ client microservice:
 5. submit login as it is
 
 # Files of interest:
-auth microservice/routes/auth.js
-client microservice/middlewares/index.js
-client microservice/routes/index.js
+1. auth microservice/routes/auth.js
+2. client microservice/middlewares/index.js
+3. client microservice/routes/index.js
